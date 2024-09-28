@@ -1,23 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (userName !== "user" || password !== "password") {
+      setErrorMessage("Invalid username or password");
+    } else {
+      setErrorMessage("");
+      setSuccessMessage("Welcome, user!");
+    }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Login Page</h1>
+      {errorMessage !== "" ? errorMessage : null}
+
+      {successMessage == "" ? (
+        <form onSubmit={handleSubmit}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <span style={{ display: "inline-block" }}>
+              <label>Username : </label>
+              <input
+                type="text"
+                name="username"
+                onChange={(e) => setUserName(e.target.value)}
+                required
+              />
+            </span>
+            <span style={{ display: "inline-block" }}>
+              <label>Password : </label>
+              <input
+                type="password"
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </span>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      ) : (
+        successMessage
+      )}
     </div>
   );
 }
